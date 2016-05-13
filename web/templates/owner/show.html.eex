@@ -1,0 +1,17 @@
+<h2>Show owner</h2>
+
+<ul>
+
+  <li>
+    <strong>Username:</strong>
+    <%= @owner.username %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @owner.email %>
+  </li>
+
+</ul>
+
+<%= link "Back", to: owner_path(@conn, :index) %>

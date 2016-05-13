@@ -1,0 +1,28 @@
+<h2>Listing logins</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Password</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for login <- @logins do %>
+    <tr>
+      <td><%= login.username %></td>
+      <td><%= login.password %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: login_path(@conn, :show, login), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: login_path(@conn, :edit, login), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: login_path(@conn, :delete, login), method: :delete, class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New login", to: login_path(@conn, :new) %>

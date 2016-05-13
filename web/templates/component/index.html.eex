@@ -1,0 +1,31 @@
+<h2>Listing components</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Dependencies</th>
+      <th>Version</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for component <- @components do %>
+    <tr>
+      <td><%= component.name %></td>
+      <td><%= component.description %></td>
+      <td><%= component.dependencies %></td>
+      <td><%= component.version %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: component_path(@conn, :show, component), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: component_path(@conn, :edit, component), class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New component", to: component_path(@conn, :new) %>

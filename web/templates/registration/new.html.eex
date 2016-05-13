@@ -1,0 +1,6 @@
+<h2>New registration</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: register_path(@conn, :register) %>
+
+<%= link "Login", to: login_path(@conn, :new) %>

@@ -1,0 +1,26 @@
+<h2>Listing instance</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>State</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for instance <- @instance do %>
+    <tr>
+      <td><%= instance.state %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: instance_path(@conn, :show, instance), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: instance_path(@conn, :edit, instance), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: instance_path(@conn, :delete, instance), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New instance", to: instance_path(@conn, :new) %>

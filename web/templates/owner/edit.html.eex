@@ -1,0 +1,6 @@
+<h2>Edit owner</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: owner_path(@conn, :update, @owner) %>
+
+<%= link "Back", to: owner_path(@conn, :index) %>

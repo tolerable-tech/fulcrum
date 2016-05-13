@@ -1,0 +1,23 @@
+<h2>New login</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: login_path(@conn, :login) %>
+
+<%= link "Back", to: login_path(@conn, :new) %>
+||
+<%= link "Register", to: registration_path(@conn, :new) %>
+
+<script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+<script type="application/javascript">
+  $(document).ready(function() {
+			$("form#login").on("ajax:success", function(xhr, data, status){
+				window.location = window.location.protocol + "//" + window.location.host + "/<%= @redirect_path %>"
+			}).on("ajax:error", function(xhr, status, error){
+				console.log("what!");
+				console.log(xhr);
+				$(".alert-danger").html("Unable to login.");
+			}).on("ajax:complete", function(xhr, status) {
+				console.log("wtf bro");
+			});
+	});
+</script>

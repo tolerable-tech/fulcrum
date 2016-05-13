@@ -1,0 +1,7 @@
+{
+  "name": "fulcrum",
+  "dependencies": {
+	  "jquery" : "~ 1.9",
+    "jquery-ujs": "~1.0.3"
+  }
+}

@@ -1,0 +1,28 @@
+<h2>Listing owners</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>PreferedName</th>
+      <th>Email</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for owner <- @owners do %>
+    <tr>
+      <td><%= owner.email %></td>
+      <td><%= owner.username %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: owner_path(@conn, :show, owner), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: owner_path(@conn, :edit, owner), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: owner_path(@conn, :delete, owner), method: :delete, class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New owner", to: owner_path(@conn, :new) %>

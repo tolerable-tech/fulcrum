@@ -1,0 +1,59 @@
+<h2>Add a component</h2>
+
+<%= form_for @changeset, component_path(@conn, :create), fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below:</p>
+      <ul>
+        <%= for {attr, message} <- f.errors do %>
+          <li><%= humanize(attr) %> <%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<p>
+  Provide a URL
+</p>
+
+  <div class="form-group">
+    <%= label f, :url, "Plugin URL" %>
+    <%= text_input f, :url, class: "form-control" %>
+  </div>
+
+<hr>
+<p>
+Or, fill in some details
+</p>
+<hr>
+  <div class="form-group">
+    <%= label f, :name, "Name" %>
+    <%= text_input f, :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :description, "Description" %>
+    <%= textarea f, :description, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :webpage, "Webpage" %>
+    <%= text_input f, :webpage, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :access_url, "Access url" %>
+    <%= text_input f, :access_url, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :config, "Config" %>
+    <%= textarea f, :config, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<%= link "Back", to: component_path(@conn, :index) %>

@@ -1,0 +1,17 @@
+<h2>Show registration</h2>
+
+<ul>
+
+  <li>
+    <strong>Username:</strong>
+    <%= @registration.username %>
+  </li>
+
+  <li>
+    <strong>Password:</strong>
+    <%= @registration.password %>
+  </li>
+
+</ul>
+
+<%= link "Back", to: owner_path(@conn, :index, @owner) %>

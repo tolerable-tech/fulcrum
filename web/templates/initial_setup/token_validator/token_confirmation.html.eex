@@ -1,0 +1,19 @@
+<h2>Please supply the token you received in your Email:</h2>
+
+<%= form_for @conn, token_validator_path(@conn, :validate), [as: :validate], fn f -> %>
+
+  <%= if @invalid do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! That token doesn't check out.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <label>Token</label>
+    <input type="token" name="token" class="form-control" value="<%= @token %>"/>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Validate", class: "btn btn-primary" %>
+  </div>
+<% end %>

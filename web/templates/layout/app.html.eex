@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%= top_domain %></title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <div class="container" role="main">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+					<%= if current_user?(@conn) do %>
+            <li> <a id="btn-logout" href="#">Logout <%= current_user_name(@conn) %></a></li>
+					<% end %>
+        </ul>
+      </div>
+
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+      <%= @inner %>
+
+    </div> <!-- /container -->
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#btn-logout').click(function(e) {
+				e.preventDefault();
+        $.ajax({
+          url: '/l/logout',
+          type: 'POST',
+          headers: {
+            'x-csrf-token': "<%= get_csrf_token %>"
+          }
+        }).then(function(data) {
+					window.location = "/login";
+				})
+				.fail(function(data) {
+          console.log(data);
+					alert(data.message);
+				})
+			});
+		});
+	</script>
+</html>

@@ -1,0 +1,33 @@
+<h2>Edit instance</h2>
+
+<h3> <bold>NOTE:</bold> Changes made here will not effect already launched instances. </h3>
+<%= form_for @changeset, instance_path(@conn, :update, @instance), fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below:</p>
+      <ul>
+        <%= for {attr, message} <- f.errors do %>
+          <li><%= humanize(attr) %> <%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :name, "Name: #{@instance.container_name}" %>
+  </div>
+  <%= hidden_input(:instance, :edit_page, value: "configuration") %>
+
+<%= for conf <- @configurables do %>
+  <div class="form-group">
+    <%= label :"instance[configurable]", conf.name, conf.name %>
+    <%= text_input :"instance[configurable]", String.to_atom(conf.name), [class: "form-control", value: conf.value] %>
+  </div>
+<% end %>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<%= link "Back", to: instance_path(@conn, :show, @instance) %>

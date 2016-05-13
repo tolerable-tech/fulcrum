@@ -1,0 +1,8 @@
+<h2>Show token validator</h2>
+
+<ul>
+
+</ul>
+
+<%= link "Edit", to: token_validator_path(@conn, :edit, @token_validator) %>
+<%= link "Back", to: token_validator_path(@conn, :index) %>

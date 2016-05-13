@@ -1,0 +1,37 @@
+<h2>Show instance</h2>
+
+<ul>
+
+  <li>
+    <strong>container name:</strong>
+    <%= @instance.container_name %>
+  </li>
+
+  <%= if has_configurables?(@specifications) do %>
+  <li>
+    <strong> Configurables </strong>
+    <ul>
+    <%= for conf <- @specifications do %>
+      <li> <strong> <%= conf.name %>: </strong> <%= conf.value %> </li>
+    <% end %>
+    <%= if has_configurables?(@specifications) do %>
+    <li>
+      <strong> Inheritted Configurables </strong>
+      <ul>
+      <%= for conf <- @inspecs do %>
+        <li> <strong> <%= conf.name %>: </strong> <%= conf.value %> </li>
+      <% end %>
+      </ul>
+    </li>
+    <% end %>
+    </ul>
+  </li>
+  <% end %>
+
+</ul>
+
+<%= link "Back to Components", to: component_path(@conn, :index) %>
+||
+<%= link "Edit Instance", to: instance_path(@conn, :edit, @instance) %>
+||
+<%= link "Parent Component", to: component_path(@conn, :show, @instance.component) %>

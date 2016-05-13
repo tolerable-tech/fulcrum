@@ -1,0 +1,82 @@
+<h2>Show component</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @component.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @component.description %>
+  </li>
+
+  <li>
+    <strong>Version:</strong>
+    <%= @component.version %>
+  </li>
+
+  <li>
+    <strong>Webpage:</strong>
+    <a href="<%= @component.webpage %>" target="_blank"> <%= @component.webpage %></a>
+  </li>
+
+  <li>
+    <strong>Access url:</strong>
+    <%= @component.discovery_url %>
+  </li>
+
+  <li>
+    <strong>Image URL:</strong>
+    <a href="<%= @component.image_url %>" target="_blank"><%= @component.image_url %></a>
+  </li>
+
+  <li>
+    <strong>Dependencies:</strong>
+    <%= dependency_list(@component) %>
+  </li>
+
+  <%= if has_configurables?(@component) do %>
+  <li>
+    <strong> Configurables </strong>
+    <ul>
+    <%= for conf <- @specifications do %>
+      <li> <strong> <%= conf.name %>: </strong> <%= conf.value %> </li>
+    <% end %>
+    </ul>
+  </li>
+  <% end %>
+
+  <%= if has_instances?(@component) do %>
+  <li>
+    <strong> instances </strong>
+    <ul>
+    <%= for inst <- instances(@component) do %>
+    <li> <%= link (inst.container_name || "Unknown Container?"), to: instance_path(@conn, :show, inst) %> </li>
+    <% end %>
+    </ul>
+  </li>
+  <% end %>
+</ul>
+
+  <form action="<%= component_path(@conn, :show, @component) %>" method="post">
+    <input name="_csrf_token" type="hidden" value="<%= get_csrf_token %>">
+    <input name="_method" type="hidden" value="put">
+    <%= hidden_input(:component, :state, value: next_state(@component)) %>
+    <div class="form-group">
+      <%= submit verb_of_state(@component), class: "btn btn-primary" %>
+    </div>
+  </form>
+
+  <form action="<%= component_path(@conn, :show, @component) %>" method="post">
+    <input name="_csrf_token" type="hidden" value="<%= get_csrf_token %>">
+    <input name="_method" type="hidden" value="delete">
+    <div class="form-group">
+      <%= submit "Delete", class: "btn btn-danger" %>
+    </div>
+  </form>
+
+<%= link "Back", to: component_path(@conn, :index) %>
+||
+<%= link "Edit", to: component_path(@conn, :edit, @component) %>

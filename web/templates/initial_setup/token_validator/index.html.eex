@@ -1,0 +1,24 @@
+<h2>Listing validators</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for token_validator <- @validators do %>
+    <tr>
+
+      <td class="text-right">
+        <%= link "Show", to: token_validator_path(@conn, :show, token_validator), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: token_validator_path(@conn, :edit, token_validator), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: token_validator_path(@conn, :delete, token_validator), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New token validator", to: token_validator_path(@conn, :new) %>
