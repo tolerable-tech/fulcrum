@@ -1,13 +1,12 @@
 defmodule Fulcrum.Owner do
   use Fulcrum.Web, :model
 
-  alias Addict.PasswordInteractor, as: PasswordHashGenerator
+  alias Addict.Interactors.GenerateEncryptedPassword, as: PasswordHashGenerator
 
   schema "owners" do
-    field :username,      :string
-    field :email,         :string
-    field :hash,          :string
-    field :recovery_hash, :string
+    field :username,           :string
+    field :email,              :string
+    field :encrypted_password, :string
 
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
@@ -34,7 +33,7 @@ defmodule Fulcrum.Owner do
     case password == get_change(cs, :password_confirmation) do
       true ->
         cs
-        |> change(%{hash: PasswordHashGenerator.generate_hash(password)})
+        |> change(%{encrypted_password: PasswordHashGenerator.call(password)})
         |> delete_change(:password)
         |> delete_change(:password_confirmation)
       _ -> add_error(cs, :password, "Password does not match confirmation.")

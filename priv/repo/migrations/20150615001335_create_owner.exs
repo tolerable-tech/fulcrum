@@ -5,8 +5,7 @@ defmodule Fulcrum.Repo.Migrations.CreateOwner do
     create table(:owners) do
       add :username, :string
       add :email, :string
-      add :hash, :string
-      add :recovery_hash, :string
+      add :encrypted_password, :string
 
       timestamps
     end
