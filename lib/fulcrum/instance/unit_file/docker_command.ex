@@ -43,13 +43,14 @@ defmodule Fulcrum.Instance.UnitFile.DockerCommand do
     end) |> Enum.join(",")
   end
 
+  defp link_string(%{links: []}), do: "none"
   defp link_string(cmd) do
     Enum.map(cmd.links, fn({container, component}) -> 
       "#{container}:#{component}.fulcrum"
     end) |> Enum.join(",")
   end
 
-  defp ports_string(opts = %{ports: []}), do: ""
+  defp ports_string(opts = %{ports: []}), do: "none"
   defp ports_string(%{ports: ports})  do
     Enum.map(ports, fn(port) ->
       "::#{port}"

@@ -8,7 +8,7 @@ defmodule Fulcrum.Initializer.Inviter do
 
   defp send_nonce_email(nonce) do
     send_email(to: Fulcrum.Settings.owner_email,
-      from: Application.get_env(:addict, :register_from_email),
+      from: Application.get_env(:addict, :from_email),
       subject: "Fulcrum is ready for you!",
       html: html_body(nonce),
       text: text_body(nonce))

@@ -14,7 +14,7 @@ defmodule Fulcrum.Instance.Env do
     #prepare(instance, String.split(req_string, ":", parts: 3))
   #end
 
-  def prepare(instance, spec = %{"generable" => "true"}) do
+  def prepare(instance, spec = %{"generable" => val}) when is_string(val) do
     specifier = specifier_for(spec, instance)
     |> ensure_value(spec)
     {spec["name"], specifier.value}
@@ -46,8 +46,8 @@ defmodule Fulcrum.Instance.Env do
     end
   end
 
-  defp ensure_value(specifier = %Specifier{value: nil}, %{"generable" => "true"}) do
-    val = Generate.env(specifier.name)
+  defp ensure_value(specifier = %Specifier{value: nil}, %{"generable" => str_len}) when not is_nil(str_len) do
+    val = Generate.env(specifier.name, str_len)
 
     {:ok, specifier} = specifier
     |> Specifier.changeset(%{value: val, value_source: "generated"})

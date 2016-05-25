@@ -10,7 +10,7 @@ defmodule Fulcrum do
       # Start the endpoint when the application starts
       supervisor(Fulcrum.Endpoint, []),
       # Start the Ecto repository
-      worker(Fulcrum.Repo, []),
+      #worker(Fulcrum.Repo, []),
       worker(Fulcrum.Fleet, [Fulcrum.Settings.fleet_url]),
       worker(Fulcrum.Initializer, [])
       # Here you could define other workers and supervisors as children

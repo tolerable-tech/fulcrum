@@ -1,5 +1,5 @@
 defmodule Fulcrum.Instance.Generate do
-  def env(name) do
+  def env(name, "true") do
     case name do
       ~r(USER) ->
         string(20)
@@ -10,6 +10,11 @@ defmodule Fulcrum.Instance.Generate do
       _ ->
         string(10)
     end
+  end
+
+  def env(name, string_length) do
+    {len, _} = Integer.parse(string_length)
+    string(len)
   end
 
   def string(length) do

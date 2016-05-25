@@ -42,6 +42,7 @@ defmodule Fulcrum.Settings do
     get_env("OWNER_EMAIL")
   end
 
+  # [user, pass, db]
   def postgres_config do
    (System.get_env("FULCRUM_DB") || "whoops:no:password")
    |> String.split(":", parts: 3)

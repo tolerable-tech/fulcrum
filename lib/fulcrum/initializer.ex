@@ -16,19 +16,11 @@ defmodule Fulcrum.Initializer do
   end
 
   def init(_args) do
-    set_postgres_config_from_env
-    set_nginx_keys_in_etcd
-    state = system_stats
-            |> launch_migrations
-            |> send_invite_email
-            |> write_s3_creds
-            #|> launch_appropriate_endpoint
-
-    if state.status == :pending_dns do
-      state |> Map.put(:dns_poll_task, Fulcrum.Initializer.DnsPoller.setup_poll)
-    end
-
-    {:ok, state}
+    # Since we're starting Fulcrum.Repo under the same supervisor this is running
+    # under, we have to call Supervisor.start_child _after_ this Supervisor is running,
+    # which means _after_ this #init function is complete. ughughugh amirite
+    GenServer.cast(@name, :initial_setup)
+    {:ok, {:ur_mom}}
   end
 
   # PUBLIC API
@@ -82,6 +74,22 @@ defmodule Fulcrum.Initializer do
       out -> 
         {:reply, :invalid, state}
     end
+  end
+
+  def handle_cast(:initial_setup, _useless_state) do
+    set_postgres_config_from_env_and_start_repo_worker
+    set_nginx_keys_in_etcd
+    state = system_stats
+            |> launch_migrations
+            |> send_invite_email
+            |> write_s3_creds
+            #|> launch_appropriate_endpoint
+
+    IO.inspect state
+    if state.status == :pending_dns do
+      state |> Map.put(:dns_poll_task, Fulcrum.Initializer.DnsPoller.setup_poll)
+    end
+    {:noreply, state}
   end
 
   def handle_cast({:owner_created, id}, state) do
@@ -170,7 +178,7 @@ defmodule Fulcrum.Initializer do
     end
   end
 
-  defp set_postgres_config_from_env do
+  defp set_postgres_config_from_env_and_start_repo_worker do
     [user, pass, db] = Settings.postgres_config
 
     Application.put_env(:fulcrum, Fulcrum.Repo,
@@ -178,6 +186,9 @@ defmodule Fulcrum.Initializer do
       username: user, password: pass, database: db,
       hostname: "fulcrum_postgresql.fulcrum-private",
       pool_size: 20) # The amount of database connections in the pool
+
+    Supervisor.start_child(Fulcrum.Supervisor,
+      Supervisor.Spec.worker(Fulcrum.Repo, []))
   end
 
   defp set_nginx_keys_in_etcd do
